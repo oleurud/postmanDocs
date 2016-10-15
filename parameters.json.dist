@@ -1,0 +1,14 @@
+{
+    "apps" : {
+        "api": {
+            "baseurl": "http://localhost:8000/",
+            "port": 8000
+        }
+    },
+    "db": {
+        "host": "localhost",
+        "port": "27017",
+        "name": "auth"
+    },
+    "secret": "ohuhyeahhhpassmolon"
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send postman file</title>
+</head>
+<body>
+    <form action="http://localhost:8000/source" method="post" enctype="multipart/form-data">
+        Collection name: <input type="text" name="name">
+        <br>
+        Postman file: <input type="file" name="sourceFile">
+        <br>
+        <input type="submit" value="Send">
+    </form>
+</body>
+</html>
