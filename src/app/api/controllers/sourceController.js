@@ -20,7 +20,7 @@ const SourceController = expressDeliver.wrapper({
     save: (req, res, next) => {
         if (!req.files || !req.files.sourceFile) {
             return {
-                error: 'No files were uploaded'
+                error: 'You must add a postman collection'
             }
         }
 
@@ -30,7 +30,13 @@ const SourceController = expressDeliver.wrapper({
             }
         }
 
-        return ProcessSource(req.body.name, req.files.sourceFile);
+        if (!req.body.url) {
+            return {
+                error: 'You must set a url'
+            }
+        }
+
+        return ProcessSource(req.body.name, req.files.sourceFile, req.body.url);
     }
 });
 

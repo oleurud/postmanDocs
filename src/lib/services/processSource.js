@@ -1,8 +1,9 @@
 import fs from 'fs';
 import config from '~/src/lib/config';
 import { Source } from '~/src/lib/models';
+import { HTTPCallsGenerator } from '~/src/lib/services';
 
-export default function(collectionName, sourceFile) {
+export default function(collectionName, sourceFile, url) {
     let filePath = config.tmpFolder + sourceFile.name;
 
     return new Promise( (resolve, reject) => {
@@ -35,7 +36,7 @@ export default function(collectionName, sourceFile) {
                                 let source = new Source({
                                     name: collectionName,
                                     description: data.info.description,
-                                    data: processData(data.item)
+                                    data: processData(data.item, url)
                                 });
 
                                 return source.save().then(() => {
@@ -52,7 +53,7 @@ export default function(collectionName, sourceFile) {
     });
 };
 
-function processData(dataSource) {
+function processData(dataSource, url) {
     return dataSource.map( (endpointGroup) => {
         let endpoints = [];
 
@@ -62,7 +63,7 @@ function processData(dataSource) {
                 endpointGroup.item.map((endpoint) => {
                     return {
                         name: endpoint.name,
-                        request: processRequest(endpoint.request),
+                        request: processRequest(endpoint.request, url),
                         response: processResponse(endpoint.response)
                     }
                 })
@@ -72,7 +73,7 @@ function processData(dataSource) {
             //endpoint without folder
             endpoints = endpoints.concat({
                 name: endpointGroup.name,
-                request: processRequest(endpointGroup.request),
+                request: processRequest(endpointGroup.request, url),
                 response: processResponse(endpointGroup.response)
             });
         }
@@ -85,7 +86,7 @@ function processData(dataSource) {
     });
 }
 
-function processRequest(requestSource) {
+function processRequest(requestSource, url) {
     if(requestSource.body && requestSource.body.raw) {
         try {
             requestSource.body = JSON.parse(requestSource.body.raw);
@@ -94,6 +95,9 @@ function processRequest(requestSource) {
             console.log('error parsing request body: ' + requestSource.body.raw);
         }
     }
+
+    requestSource.headers = requestSource.header;
+    requestSource.byLanguage = HTTPCallsGenerator(requestSource, url);
 
     return requestSource;
 }

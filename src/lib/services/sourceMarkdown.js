@@ -23,15 +23,16 @@ export default function(sourceName) {
                         sourceMarkdown += endpoint.request.description + "\n";
                     }
 
-
                     sourceMarkdown += "```endpoint" + "\n";
                     sourceMarkdown += endpoint.request.method + " " + endpoint.request.url + "\n";
                     sourceMarkdown += "```" + "\n";
 
                     sourceMarkdown += "#### Request example" + "\n";
-                    sourceMarkdown += "```json" + "\n";
-                    sourceMarkdown += JSON.stringify(endpoint.request.body) + "\n";
-                    sourceMarkdown += "```" + "\n";
+                    for(let i in endpoint.request.byLanguage) {
+                        sourceMarkdown += "```" + i + "\n";
+                        sourceMarkdown += endpoint.request.byLanguage[i] + "\n";q
+                        sourceMarkdown += "```" + "\n";
+                    }
 
                     if(endpoint.response.length > 0) {
                         sourceMarkdown += "#### Response examples \n";
