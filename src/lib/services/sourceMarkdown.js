@@ -30,7 +30,7 @@ export default function(sourceName) {
                     sourceMarkdown += "#### Request example" + "\n";
                     for(let i in endpoint.request.byLanguage) {
                         sourceMarkdown += "```" + i + "\n";
-                        sourceMarkdown += endpoint.request.byLanguage[i] + "\n";q
+                        sourceMarkdown += endpoint.request.byLanguage[i] + "\n";
                         sourceMarkdown += "```" + "\n";
                     }
 
