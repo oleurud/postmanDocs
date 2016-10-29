@@ -42,15 +42,21 @@ const jwtStrategyOptions = {
 };
 
 const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(payload, done) {
-    User.findOne({ _id: payload._id }, function(err, user) {
-        if (err) {
-            return done(err, false);
+    User.findOne({
+        _id: payload._id,
+        username: payload.username,
+        role: payload.role
+    }, function(err, user) {
+        if (err || !user) {
+            done({error: 'Unauthorized'}, false);
         }
 
-        if (user) {
+        let dbToken = user.getTokenByDevice(payload.device);
+
+        if(dbToken && dbToken.randomToken == payload.randomToken) {
             done(null, user);
         } else {
-            done(null, false);
+            done({ error: 'Token expired' }, false);
         }
     });
 });

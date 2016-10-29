@@ -18,7 +18,7 @@ export default function(app){
     authRoutes.post('/register', AuthController.register);
     authRoutes.post('/login', requireLogin, AuthController.login);
 
-    
+
     /* SOURCE */
     v1.get('/source', requireAuth, SourceController.getAll);
     v1.get('/source/:sourceName', requireAuth, SourceController.getOne);

@@ -1,6 +1,21 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
 
+const tokenSchema = new mongoose.Schema({
+    token: {
+        type: String,
+        required: true
+    },
+    device: {
+        type: String,
+        required: true
+    },
+    randomToken: {
+        type: String,
+        required: true
+    }
+});
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -23,8 +38,9 @@ const userSchema = new mongoose.Schema({
         enum: ['Client', 'Admin'],
         default: 'Client'
     },
-    resetPasswordToken: { type: String },
-    resetPasswordExpires: { type: Date }
+    tokens: {
+        type: [tokenSchema]
+    }
 },
 {
     timestamps: true
@@ -64,6 +80,36 @@ userSchema.methods = {
             username: this.username,
             role: this.role
         }
+    },
+    getTokenByDevice: function(device) {
+        for(let i = 0; i < this.tokens.length; i++) {
+            if(this.tokens[i].device == device) {
+                return this.tokens[i];
+            }
+        }
+
+        return false;
+    },
+    saveToken: function(token, device, randomToken) {
+        let existingByDevice = false;
+        for(let i = 0; i < this.tokens.length; i++) {
+            if(this.tokens[i].device == device) {
+                this.tokens[i].token = token;
+                this.tokens[i].randomToken = randomToken;
+                existingByDevice = true;
+                break;
+            }
+        }
+
+        if(!existingByDevice) {
+            this.tokens.push({
+                token: token,
+                device: device,
+                randomToken: randomToken
+            });
+        }
+
+        this.save();
     }
 };
 

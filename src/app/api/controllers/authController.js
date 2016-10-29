@@ -1,16 +1,26 @@
 import expressDeliver from 'express-deliver';
 import { User } from '~/src/lib/models';
-import { generateAccessToken } from '~/src/lib/services/jwt';
+import { generateAccessToken, generateRandomToken } from '~/src/lib/services/auth';
 
 const AuthController = expressDeliver.wrapper({
     login: (req, res, next) => {
         return User.findOne(
             { email: req.body.email }
         ).then( (user) => {
-            return {
-                token: generateAccessToken(user),
-                user: user.getPublicInfo()
-            };
+            const device = req.body.device;
+            if (!device) {
+                return { error: 'You must enter a device.'};
+            }
+
+            return generateRandomToken().then((randomToken) => {
+                const token = generateAccessToken(user, device, randomToken);
+                user.saveToken(token, device, randomToken);
+
+                return {
+                    token: token,
+                    user: user.getPublicInfo()
+                };
+            });
         });
     },
 
@@ -18,9 +28,10 @@ const AuthController = expressDeliver.wrapper({
         const email = req.body.email;
         const password = req.body.password;
         const username = req.body.username;
+        const device = req.body.device;
 
         if (!email) {
-            return { message: 'You must enter an email address.'};
+            return { error: 'You must enter an email address.'};
         }
 
         if (!password) {
@@ -29,6 +40,10 @@ const AuthController = expressDeliver.wrapper({
 
         if (!username) {
             return { error: 'You must enter a username.' };
+        }
+
+        if (!device) {
+            return { error: 'You must enter a device.'};
         }
 
         //check if email exists
@@ -51,16 +66,26 @@ const AuthController = expressDeliver.wrapper({
                 let user = new User({
                     email: email,
                     password: password,
-                    username: username
+                    username: username,
+                    tokens: []
                 });
 
-                return user.save()
-                    .then(() => {
-                        return {
-                            token: generateAccessToken(user),
-                            user: user.getPublicInfo()
-                        };
+                return generateRandomToken().then((randomToken) => {
+                    const token = generateAccessToken(user, device, randomToken);
+                    user.tokens.push({
+                        token: token,
+                        device: device,
+                        randomToken: randomToken
                     });
+
+                    return user.save()
+                        .then(() => {
+                            return {
+                                token: token,
+                                user: user.getPublicInfo()
+                            };
+                        });
+                });
             });
         });
     }
