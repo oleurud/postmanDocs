@@ -47,12 +47,24 @@ userSchema.pre('save', function(next) {
     });
 });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-    bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
-        if (err) { return cb(err); }
+userSchema.methods = {
+    comparePassword: function(candidatePassword, cb) {
+        bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+            if (err) {
+                return cb(err);
+            }
 
-        cb(null, isMatch);
-    });
+            cb(null, isMatch);
+        });
+    },
+
+    getPublicInfo: function() {
+        return {
+            email: this.email,
+            username: this.username,
+            role: this.role
+        }
+    }
 };
 
 export default mongoose.model('user', userSchema);

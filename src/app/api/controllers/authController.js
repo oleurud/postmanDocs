@@ -1,29 +1,17 @@
 import expressDeliver from 'express-deliver';
 import { User } from '~/src/lib/models';
-import jwt from 'jsonwebtoken';
-import config from '~/src/lib/config';
-
-function generateToken(user) {
-    return jwt.sign(user, config.secret, {
-        expiresIn: 24*60*60
-    });
-}
-
-function setUserInfo(request) {
-    return {
-        email: request.email,
-        username: request.username,
-        role: request.role
-    };
-}
+import { generateAccessToken } from '~/src/lib/services/jwt';
 
 const AuthController = expressDeliver.wrapper({
     login: (req, res, next) => {
-        let userInfo = setUserInfo(req.user);
-        return {
-            token: 'JWT ' + generateToken(userInfo),
-            user: userInfo
-        };
+        return User.findOne(
+            { email: req.body.email }
+        ).then( (user) => {
+            return {
+                token: generateAccessToken(user),
+                user: user.getPublicInfo()
+            };
+        });
     },
 
     register: (req, res, next) => {
@@ -68,11 +56,9 @@ const AuthController = expressDeliver.wrapper({
 
                 return user.save()
                     .then(() => {
-                        let userInfo = setUserInfo(user);
-
                         return {
-                            token: 'JWT ' + generateToken(userInfo),
-                            user: userInfo
+                            token: generateAccessToken(user),
+                            user: user.getPublicInfo()
                         };
                     });
             });

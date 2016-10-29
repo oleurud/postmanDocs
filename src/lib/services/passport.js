@@ -16,19 +16,13 @@ const localStrategyOptions = {
 
 const localLogin = new LocalStrategy(localStrategyOptions, function(email, password, done) {
     User.findOne({ email: email }, function(err, user) {
-        if(err) {
-            return done(err);
-        }
-        if(!user) {
-            return done(null, false, { error: 'Your login details could not be verified. Please try again.' });
+        if(err || !user) {
+            return done({ error: 'Your login details could not be verified. Please try again.' });
         }
 
         user.comparePassword(password, function(err, isMatch) {
-            if (err) {
-                return done(err);
-            }
-            if (!isMatch) {
-                return done(null, false, { error: "Your login details could not be verified. Please try again." });
+            if (err || !isMatch) {
+                return done({ error: "Your login details could not be verified. Please try again." });
             }
 
             return done(null, user);
@@ -48,7 +42,7 @@ const jwtStrategyOptions = {
 };
 
 const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(payload, done) {
-    User.findOne({ email: payload.email }, function(err, user) {
+    User.findOne({ _id: payload._id }, function(err, user) {
         if (err) {
             return done(err, false);
         }
