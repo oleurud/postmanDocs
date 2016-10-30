@@ -159,9 +159,11 @@ userSchema.statics = {
                     "role": newRole
                 }
             });
-        } else {
-            return false;
         }
+
+        return new Promise( (resolve, reject) => {
+            resolve(false);
+        });
     },
 
     setSourcePermissions: function(user, username, newPermissions) {
