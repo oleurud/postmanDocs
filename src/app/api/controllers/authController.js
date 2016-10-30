@@ -1,6 +1,6 @@
 import expressDeliver from 'express-deliver';
 import { User } from '~/src/lib/models';
-import { generateAccessToken, generateRandomToken } from '~/src/lib/services/auth';
+import { generateAccessToken } from '~/src/lib/services/auth';
 
 const AuthController = expressDeliver.wrapper({
     login: (req, res, next) => {
@@ -12,15 +12,13 @@ const AuthController = expressDeliver.wrapper({
                 return { error: 'You must enter a device.'};
             }
 
-            return generateRandomToken().then((randomToken) => {
-                const token = generateAccessToken(user, device, randomToken);
-                user.saveToken(token, device, randomToken);
+            const token = generateAccessToken(user, device);
+            user.saveToken(token, device);
 
-                return {
-                    token: token,
-                    user: user.getPublicInfo()
-                };
-            });
+            return {
+                token: token,
+                user: user.getPublicInfo()
+            };
         });
     },
 
@@ -70,26 +68,23 @@ const AuthController = expressDeliver.wrapper({
                     tokens: []
                 });
 
-                return generateRandomToken().then((randomToken) => {
-                    const token = generateAccessToken(user, device, randomToken);
-                    user.tokens.push({
-                        token: token,
-                        device: device,
-                        randomToken: randomToken
-                    });
-
-                    return user.save()
-                        .then(() => {
-                            return {
-                                token: token,
-                                user: user.getPublicInfo()
-                            };
-                        });
+                const token = generateAccessToken(user, device);
+                user.tokens.push({
+                    token: token,
+                    device: device
                 });
+
+                return user.save()
+                    .then(() => {
+                        return {
+                            token: token,
+                            user: user.getPublicInfo()
+                        };
+                    });
             });
         });
     }
-
+    
 });
 
 export default AuthController;

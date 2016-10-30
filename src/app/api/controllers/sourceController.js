@@ -4,20 +4,42 @@ import { Source } from '~/src/lib/models';
 
 const SourceController = expressDeliver.wrapper({
     getAll: (req, res, next) => {
-        return Source.find({}, {"_id": false, "name": true});
+        return Source.getAllSourcesNames(req.user).then( (sources) => {
+            return sources;
+        });
     },
 
     getOne: (req, res, next) => {
-        return Source.findOne({name: req.params.sourceName});
+        return Source.getOne(req.params.sourceName, req.user).then( (source) => {
+            if (source) {
+                return source;
+            } else {
+                return {error: 'Not found'}
+            }
+        });
     },
 
     getOneFormated: (req, res, next) => {
         if(req.params.format == 'markdown') {
-            return SourceMarkdown(req.params.sourceName);
+            return SourceMarkdown(req.params.sourceName, req.user).then( (source) => {
+                if (source) {
+                    return source;
+                } else {
+                    return {error: 'Not found'}
+                }
+            });
+        } else {
+            return {error: 'Not found'}
         }
     },
 
     save: (req, res, next) => {
+        if (req.user.role == 'Client') {
+            return {
+                error: 'You dont have permissions to create sources'
+            }
+        }
+
         if (!req.files || !req.files.sourceFile) {
             return {
                 error: 'You must add a postman collection'
@@ -36,7 +58,7 @@ const SourceController = expressDeliver.wrapper({
             }
         }
 
-        return ProcessSource(req.body.name, req.files.sourceFile, req.body.url);
+        return ProcessSource(req.body.name, req.files.sourceFile, req.body.url, req.user);
     }
 });
 

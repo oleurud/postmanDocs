@@ -2,14 +2,13 @@ import jwt from 'jsonwebtoken';
 import config from '~/src/lib/config';
 import bcrypt from 'bcrypt-nodejs';
 
-let generateAccessToken = (user, device, randomToken) => {
+let generateAccessToken = (user, device) => {
     return 'JWT ' + jwt.sign(
             {
                 _id: user._id,
                 username: user.username,
                 role: user.role,
-                device: device,
-                randomToken: randomToken
+                device: device
             },
             config.secret,
             {

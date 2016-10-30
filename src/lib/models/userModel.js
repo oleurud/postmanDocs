@@ -9,10 +9,12 @@ const tokenSchema = new mongoose.Schema({
     device: {
         type: String,
         required: true
-    },
-    randomToken: {
-        type: String,
-        required: true
+    }
+});
+
+const permissionsSchema = new mongoose.Schema({
+    sources: {
+        type: [String]
     }
 });
 
@@ -35,11 +37,18 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['Client', 'Admin'],
+        enum: [
+            'Client', //only read sources
+            'Admin', //manage and give permissions to "Client users" of their own sources
+            'SuperAdmin' //manage and give permissions of all sources. Manage "Admin users"
+        ],
         default: 'Client'
     },
     tokens: {
         type: [tokenSchema]
+    },
+    permissions: {
+        type: permissionsSchema
     }
 },
 {
@@ -90,12 +99,11 @@ userSchema.methods = {
 
         return false;
     },
-    saveToken: function(token, device, randomToken) {
+    saveToken: function(token, device) {
         let existingByDevice = false;
         for(let i = 0; i < this.tokens.length; i++) {
             if(this.tokens[i].device == device) {
                 this.tokens[i].token = token;
-                this.tokens[i].randomToken = randomToken;
                 existingByDevice = true;
                 break;
             }
@@ -104,12 +112,93 @@ userSchema.methods = {
         if(!existingByDevice) {
             this.tokens.push({
                 token: token,
-                device: device,
-                randomToken: randomToken
+                device: device
             });
         }
 
         this.save();
+    },
+    getSourcesPermissions: function() {
+        if(this.permissions && this.permissions.sources) {
+            return this.permissions.sources
+        }
+        return [];
+    },
+    hasSourcePermission: function(sourceId) {
+        if(this.role == 'SuperAdmin') {
+            return true;
+        }
+
+        if(this.permissions && this.permissions.sources && this.permissions.sources.indexOf(sourceId) > -1) {
+            return true;
+        }
+
+        return false;
+    },
+    addSourcePermission: function(sourceId) {
+        if(!this.permissions) {
+            this.permissions = {
+                sources: []
+            };
+        }
+
+        if(this.permissions.sources.indexOf(sourceId) == -1) {
+            this.permissions.sources.push(sourceId);
+            this.save();
+        }
+    }
+};
+
+userSchema.statics = {
+    setRole: function(user, username, newRole) {
+        if(user.role == 'SuperAdmin') {
+            return this.update({
+                "username": username
+            },{
+                $set: {
+                    "role": newRole
+                }
+            });
+        } else {
+            return false;
+        }
+    },
+
+    setSourcePermissions: function(user, username, newPermissions) {
+        if (user.role == 'SuperAdmin') {
+            return this.update({
+                "username": username
+            },{
+                $set: {
+                    "permissions.sources": newPermissions
+                }
+            });
+
+        } else if(user.role == 'Admin') {
+            //an Admin only can add permissions to Client
+            return this.findOne({"username": username}).then( (userToChangePermissions) => {
+                if(userToChangePermissions && userToChangePermissions.role == 'Client') {
+                    //check if Admin has permission over the sources
+                    if (user.permissions && user.permissions.sources && user.permissions.sources.length > 0) {
+                        newPermissions = newPermissions.filter((sourceId) => {
+                            return user.permissions.sources.indexOf(sourceId) > -1
+                        });
+
+                        return this.update({
+                            "username": username
+                        }, {
+                            $set: {
+                                "permissions.sources": newPermissions
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        return new Promise( (resolve, reject) => {
+            resolve(false);
+        });
     }
 };
 

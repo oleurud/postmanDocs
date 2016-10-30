@@ -3,7 +3,7 @@ import config from '~/src/lib/config';
 import { Source } from '~/src/lib/models';
 import { HTTPCallsGenerator } from '~/src/lib/services';
 
-export default function(collectionName, sourceFile, url) {
+export default function(collectionName, sourceFile, url, user) {
     let filePath = config.tmpFolder + sourceFile.name;
 
     return new Promise( (resolve, reject) => {
@@ -39,7 +39,9 @@ export default function(collectionName, sourceFile, url) {
                                     data: processData(data.item, url)
                                 });
 
-                                return source.save().then(() => {
+                                return source.save().then((source) => {
+                                    user.addSourcePermission(source._id);
+                                    
                                     return {
                                         message: 'Collection saved'
                                     }

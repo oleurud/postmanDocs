@@ -38,10 +38,12 @@ passport.use(localLogin);
  */
 const jwtStrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeader(),
-    secretOrKey: config.secret
+    secretOrKey: config.secret,
+    passReqToCallback: true,
+    ignoreExpiration: true
 };
 
-const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(payload, done) {
+const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(req, payload, done) {
     User.findOne({
         _id: payload._id,
         username: payload.username,
@@ -49,14 +51,15 @@ const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(payload, done) {
     }, function(err, user) {
         if (err || !user) {
             done({error: 'Unauthorized'}, false);
-        }
-
-        let dbToken = user.getTokenByDevice(payload.device);
-
-        if(dbToken && dbToken.randomToken == payload.randomToken) {
-            done(null, user);
         } else {
-            done({ error: 'Token expired' }, false);
+            let token = req.headers.authorization;
+            let dbToken = user.getTokenByDevice(payload.device);
+
+            if(dbToken && dbToken.token == token) {
+                done(null, user);
+            } else {
+                done({ error: 'Token expired' }, false);
+            }
         }
     });
 });

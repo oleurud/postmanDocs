@@ -1,7 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import passportService from '~/src/lib/services/passport';
-import { ApiController, AuthController, SourceController } from './controllers';
+import { ApiController, AuthController, UserController, SourceController } from './controllers';
 
 export default function(app){
 
@@ -17,13 +17,16 @@ export default function(app){
     v1.use('/auth', authRoutes);
     authRoutes.post('/register', AuthController.register);
     authRoutes.post('/login', requireLogin, AuthController.login);
+    
+    /* USERS */
+    v1.post('/users/:userName/role', requireAuth, UserController.setRole);
+    v1.post('/users/:userName/permissions/sources', requireAuth, UserController.setPermissions);
 
-
-    /* SOURCE */
-    v1.get('/source', requireAuth, SourceController.getAll);
-    v1.get('/source/:sourceName', requireAuth, SourceController.getOne);
-    v1.get('/source/:sourceName/:format', requireAuth, SourceController.getOneFormated);
-    v1.post('/source', requireAuth, SourceController.save);
+    /* SOURCES */
+    v1.get('/sources', requireAuth, SourceController.getAll);
+    v1.get('/sources/:sourceName', requireAuth, SourceController.getOne);
+    v1.get('/sources/:sourceName/:format', requireAuth, SourceController.getOneFormated);
+    v1.post('/sources', requireAuth, SourceController.save);
 
 
     app.use('/v1', v1);
