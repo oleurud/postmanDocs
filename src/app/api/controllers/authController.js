@@ -1,6 +1,6 @@
 import expressDeliver from 'express-deliver';
 import { User } from '~/src/lib/models';
-import { generateAccessToken } from '~/src/lib/services/auth';
+import { errorResponse, generateAccessToken } from '~/src/lib/services';
 
 const AuthController = expressDeliver.wrapper({
     login: (req, res, next) => {
@@ -9,7 +9,7 @@ const AuthController = expressDeliver.wrapper({
         ).then( (user) => {
             const device = req.body.device;
             if (!device) {
-                return { error: 'You must enter a device.'};
+                return errorResponse(10104);
             }
 
             const token = generateAccessToken(user, device);
@@ -29,19 +29,19 @@ const AuthController = expressDeliver.wrapper({
         const device = req.body.device;
 
         if (!email) {
-            return { error: 'You must enter an email address.'};
+            return errorResponse(10101);
         }
 
         if (!password) {
-            return { error: 'You must enter a password.' };
+            return errorResponse(10102);
         }
 
         if (!username) {
-            return { error: 'You must enter a username.' };
+            return errorResponse(10103);
         }
 
         if (!device) {
-            return { error: 'You must enter a device.'};
+            return errorResponse(10105);
         }
 
         //check if email exists
@@ -49,7 +49,7 @@ const AuthController = expressDeliver.wrapper({
             { email: email }
         ).then( (existingUser) => {
             if (existingUser) {
-                return { error: 'That email address is already in use.' };
+                return errorResponse(10111);
             }
 
             //check if username exists
@@ -57,7 +57,7 @@ const AuthController = expressDeliver.wrapper({
                 { username: username }
             ).then( (existingUser) => {
                 if (existingUser) {
-                    return { error: 'That username is already in use.' };
+                    return errorResponse(10112);
                 }
 
                 //valid user

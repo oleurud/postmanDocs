@@ -3,6 +3,8 @@ import { User } from '~/src/lib/models';
 import config from '../config';
 import PassportJwt from 'passport-jwt';
 import LocalStrategy from 'passport-local';
+import { errorResponse } from '~/src/lib/services';
+
 
 const JwtStrategy = PassportJwt.Strategy;
 const ExtractJwt = PassportJwt.ExtractJwt;
@@ -17,12 +19,12 @@ const localStrategyOptions = {
 const localLogin = new LocalStrategy(localStrategyOptions, function(email, password, done) {
     User.findOne({ email: email }, function(err, user) {
         if(err || !user) {
-            return done({ error: 'Your login details could not be verified. Please try again.' });
+            return done(errorResponse(10002));
         }
 
         user.comparePassword(password, function(err, isMatch) {
             if (err || !isMatch) {
-                return done({ error: "Your login details could not be verified. Please try again." });
+                return done(errorResponse(10002));
             }
 
             return done(null, user);
@@ -50,7 +52,7 @@ const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(req, payload, done
         role: payload.role
     }, function(err, user) {
         if (err || !user) {
-            done({error: 'Unauthorized'}, false);
+            done(errorResponse(10000), false);
         } else {
             let token = req.headers.authorization;
             let dbToken = user.getTokenByDevice(payload.device);
@@ -58,7 +60,7 @@ const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(req, payload, done
             if(dbToken && dbToken.token == token) {
                 done(null, user);
             } else {
-                done({ error: 'Token expired' }, false);
+                done(errorResponse(10001), false);
             }
         }
     });

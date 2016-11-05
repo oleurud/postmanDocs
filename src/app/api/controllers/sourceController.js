@@ -1,5 +1,5 @@
 import expressDeliver from 'express-deliver';
-import { ProcessSource, SourceMarkdown } from '~/src/lib/services';
+import { errorResponse, ProcessSource, SourceMarkdown } from '~/src/lib/services';
 import { Source } from '~/src/lib/models';
 
 const SourceController = expressDeliver.wrapper({
@@ -14,7 +14,7 @@ const SourceController = expressDeliver.wrapper({
             if (source) {
                 return source;
             } else {
-                return {error: 'Not found'}
+                return errorResponse(404);
             }
         });
     },
@@ -25,37 +25,29 @@ const SourceController = expressDeliver.wrapper({
                 if (source) {
                     return source;
                 } else {
-                    return {error: 'Not found'}
+                    return errorResponse(404);
                 }
             });
         } else {
-            return {error: 'Not found'}
+            return errorResponse(404);
         }
     },
 
     save: (req, res, next) => {
         if (req.user.role == 'Client') {
-            return {
-                error: 'You dont have permissions to create sources'
-            }
+            return errorResponse(12001);
         }
 
         if (!req.files || !req.files.sourceFile) {
-            return {
-                error: 'You must add a postman collection'
-            }
+            return errorResponse(12002);
         }
 
         if (!req.body.name) {
-            return {
-                error: 'You must set a collection name'
-            }
+            return errorResponse(12003);
         }
 
         if (!req.body.url) {
-            return {
-                error: 'You must set a url'
-            }
+            return errorResponse(12004);
         }
 
         return ProcessSource(req.body.name, req.files.sourceFile, req.body.url, req.user);
