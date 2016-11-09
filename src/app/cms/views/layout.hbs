@@ -16,10 +16,9 @@
                         <li role="presentation" {{#isEquals active 'sources' }} class="active" {{/isEquals}}>
                             <a href="/cms/sources">Projects</a>
                         </li>
-                        {{#isEquals userLogged.role 'SuperAdmin'}}
-                            <li role="presentation" {{#isEquals active 'users' }} class="active" {{/isEquals}}>
-                                <a href="/cms/users">Users</a></li>
-                        {{/isEquals}}
+                        <li role="presentation" {{#isEquals active 'users' }} class="active" {{/isEquals}}>
+                            <a href="/cms/users">Users</a>
+                        </li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userLogged.username}} <span class="caret"></span>

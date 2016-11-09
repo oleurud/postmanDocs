@@ -58,15 +58,20 @@ const SourceController = {
 
     users: (req, res, next) => {
         const sourceName = req.params.sourceName;
-        let source = Source.getOne(sourceName, req.user);
-        User.getAllUsersBySourceId(source._id).then( (users) => {
-            res.render('sources/users', {
-                active: 'sources',
-                userLogged: req.user.getPublicInfo(),
-                users: users,
-                sourceName: sourceName
+        Source.getOne(sourceName, req.user).then( (source) => {
+            if(!source) {
+                res.redirect('/cms/sources')
+            }
+            
+            User.getAllUsersBySourceId(source._id).then( (users) => {
+                res.render('sources/users', {
+                    active: 'sources',
+                    userLogged: req.user.getPublicInfo(),
+                    users: users,
+                    sourceName: sourceName
+                });
             });
-        });
+        })
     }
 };
 

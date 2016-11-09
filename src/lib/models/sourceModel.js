@@ -49,7 +49,7 @@ sourceSchema.statics = {
     
     getOne: function(sourceName, user) {
         return this.findOne({name: sourceName}).then( (source) => {
-            if(!source || !user.hasSourcePermission(source._id)) {
+            if(!source || (user.role != 'SuperAdmin' && !user.hasSourcePermission(source._id) )) {
                 return false;
             }
 
