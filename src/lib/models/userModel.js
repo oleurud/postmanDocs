@@ -48,9 +48,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     tokens: {
-        type: [tokenSchema],
-        default: [],
-        required: true
+        type: [tokenSchema]
     },
     permissions: {
         type: permissionsSchema
