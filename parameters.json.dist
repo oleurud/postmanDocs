@@ -16,6 +16,11 @@
         "port": "27017",
         "name": "auth"
     },
+    "ldap": {
+        "host": "localhost",
+        "port": "389",
+        "timeout": "2000"
+    },
     "secret": "ohuhyeahhhpassmolon",
     "tmpFolder": "/tmp/"
 }
