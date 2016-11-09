@@ -1,0 +1,17 @@
+<h2><legend>Projects <a href="/cms/sources/add" class="btn btn-primary pull-right">Add new</a></legend></h2>
+{{#if sources}}
+    {{#each sources}}
+        <div class="col-md-3 col-xs-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{this.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <a href="/cms/sources/{{this.name}}/users" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+{{/if}}

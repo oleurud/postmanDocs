@@ -1,0 +1,21 @@
+{
+    "apps" : {
+        "api": {
+            "baseurl": "http://localhost:8000/",
+            "port": 8000,
+            "active": true
+        },
+        "cms": {
+            "baseurl": "http://localhost:8001/",
+            "port": 8001,
+            "active": true
+        }
+    },
+    "db": {
+        "host": "localhost",
+        "port": "27017",
+        "name": "auth"
+    },
+    "secret": "ohuhyeahhhpassmolon",
+    "tmpFolder": "/tmp/"
+}

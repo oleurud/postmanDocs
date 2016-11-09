@@ -1,0 +1,4 @@
+node_modules/
+parameters.json
+build/
+.idea/

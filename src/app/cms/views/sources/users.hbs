@@ -1,0 +1,26 @@
+<h2><legend>Users of project: {{sourceName}}</legend></h2>
+
+<ul class="list-group">
+    <li class="list-group-item active">
+        <div class="row">
+            <div class="col-md-6">
+                Username
+            </div>
+            <div class="col-md-6">
+                Email
+            </div>
+        </div>
+    </li>
+    {{#each users}}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-6">
+                    {{this.username}}
+                </div>
+                <div class="col-md-6">
+                    {{this.email}}
+                </div>
+            </div>
+        </li>
+    {{/each}}
+</ul>
