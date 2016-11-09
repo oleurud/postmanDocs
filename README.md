@@ -18,6 +18,7 @@ The project has 3 subprojects:
 
 ## Run
 - npm run start-dev
+
 You can run the API, the CMS or both changing the parameters.json file, setting the parameter "active" with true or false
 
 ## Create a new project documentation
