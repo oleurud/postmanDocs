@@ -13,7 +13,7 @@ export default {
     	mongoose.connection
     	    .on('error', console.error.bind(console, 'mongodb connection error:') )
     	    .on('open', function (db) {
-    	        console.log('mongodb connected');
+    	        console.log('>>> mongodb connected');
     	    });
 
     	mongoose.set('debug', config.debug);

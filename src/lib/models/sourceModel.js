@@ -32,6 +32,20 @@ sourceSchema.statics = {
             "name": true
         });
     },
+
+    getAllSourcesIds: function(user) {
+        let query = {};
+        if(user.role != 'SuperAdmin') {
+            query = {
+                "_id": {
+                    $in: user.getSourcesPermissions()
+                }
+            }
+        }
+        return this.find(query, {
+            "_id": true
+        });
+    },
     
     getOne: function(sourceName, user) {
         return this.findOne({name: sourceName}).then( (source) => {
@@ -41,6 +55,10 @@ sourceSchema.statics = {
 
             return source;
         });
+    },
+
+    getAllByIdsArray: function(ids) {
+        return this.find({'_id':{$in:ids}});
     }
 }
 

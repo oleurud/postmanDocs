@@ -1,34 +1,19 @@
 import { DbService } from './services';
-import { WidgetModel } from './models';
-import Q from 'q';
-import faker from 'faker';
+import { User } from './models';
 
 DbService.connect();
 
-let promises = [];
+console.log('Running fixtures');
 
-for (let i = 0; i < 10; i++) {
-    promises.push(
-        WidgetModel.create({
-            column: faker.random.number(),
-            row: faker.random.number(),
-            image: faker.image.imageUrl(),
-            thumbnail: faker.image.imageUrl()
-        })
-    );
-}
+let adminUser = new User({
+    email: 'admin@test.com',
+    password: 'xxx',
+    username: 'admin',
+    tokens: [],
+    role: 'SuperAdmin'
+});
+adminUser.save();
 
-//////////
-// DONE //
-//////////
-Q.all(promises)
-.then(function(){
-	console.log('All done');
-})
-.catch(function(err){
-	console.log(err);
-})
-.finally(function(){
-	DbService.disconnect();
-})
-.done();
+console.log('Admin user created');
+
+console.log('End of fixtures');

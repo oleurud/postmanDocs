@@ -1,7 +1,7 @@
 {
-  "name": "gig-starter-node-api-kit",
-  "version": "0.0.1",
-  "description": "",
+  "name": "postman-docs",
+  "version": "0.1.0",
+  "description": "Create the project documentation from a postman collection",
   "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,26 +12,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gigigo-html5/gig-starter-node-api-kit.git"
+    "url": "git+https://github.com/oleurud/postmanDocs.git"
   },
-  "author": "Pedro José Peña <pedro.jose@gigigo.com>",
+  "author": "Simon Martín <simon.martin@gigigo.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gigigo-html5/gig-starter-node-api-kit/issues"
+    "url": "https://github.com/oleurud/postmanDocs/issues"
   },
-  "homepage": "https://github.com/gigigo-html5/gig-starter-node-api-kit#readme",
+  "homepage": "https://github.com/oleurud/postmanDocs",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
     "debug": "^2.2.0",
     "express": "^4.14.0",
     "express-deliver": "0.0.4",
     "express-fileupload": "0.0.5",
+    "express-session": "^1.14.2",
+    "hbs": "^4.0.1",
     "httpsnippet": "^1.16.5",
     "jsonwebtoken": "^7.1.9",
     "mongoose": "^4.6.0",
-    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",
     "passport-local": "^1.0.0",

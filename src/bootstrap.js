@@ -1,7 +1,13 @@
-export default function() {
-    //api
-    if(config.apps.active == 'api') {
-        import api from './app/api';
+import express from 'express';
+import expressDeliver from 'express-deliver';
+import api from './app/api';
+import cms from './app/cms';
+
+export default function(config) {
+    if(config.apps.api.active) {
+        //api
+        console.log('>>> Starting API');
+
         const apiApp = express();
         const apiPort = config.apps.api.port;
 
@@ -12,20 +18,22 @@ export default function() {
         expressDeliver.handlers(apiApp);
 
         apiApp.listen(apiPort,function(){
-            console.log(`>>> API http listening ${apiPort}`);
+            console.log(`>>> API listening ${apiPort}`);
         });
     }
 
+    if(config.apps.cms.active) {
+        //cms
+        console.log('>>> Starting CMS');
 
-    //cms
-    import cms from './app/cms';
-    const cmsApp = express();
-    const cmsPort = config.apps.cms.port;
+        const cmsApp = express();
+        const cmsPort = config.apps.cms.port;
 
-    cms.middlewares(cmsApp);
-    cms.routes(cmsApp);
+        cms.middlewares(cmsApp);
+        cms.routes(cmsApp);
 
-    cmsApp.listen(cmsPort,function(){
-        console.log(`>>> CMS http listening ${cmsPort}`);
-    });
+        cmsApp.listen(cmsPort,function(){
+            console.log(`>>> CMS listening ${cmsPort}`);
+        });
+    }
 }

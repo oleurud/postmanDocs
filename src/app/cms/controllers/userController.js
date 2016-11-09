@@ -137,6 +137,10 @@ const UserController = {
     },
 
     permissions: (req, res, next) => {
+        if(req.user.role != 'SuperAdmin') {
+            res.redirect('/cms');
+        }
+        
         const userName = req.params.userName;
         const sourceId = req.params.sourceId;
         const action = req.params.action;

@@ -5,7 +5,6 @@ import PassportJwt from 'passport-jwt';
 import LocalStrategy from 'passport-local';
 import { errorResponse } from '~/src/lib/services';
 
-
 const JwtStrategy = PassportJwt.Strategy;
 const ExtractJwt = PassportJwt.ExtractJwt;
 
@@ -67,3 +66,8 @@ const jwtLogin = new JwtStrategy(jwtStrategyOptions, function(req, payload, done
 });
 
 passport.use(jwtLogin);
+
+
+/*
+ * CMS strategy
+ */

@@ -14,7 +14,7 @@
                 <ul class="nav nav-pills pull-right">
                     {{#if userLogged}}
                         <li role="presentation" {{#isEquals active 'sources' }} class="active" {{/isEquals}}>
-                            <a href="/cms/sources">Collections</a>
+                            <a href="/cms/sources">Projects</a>
                         </li>
                         {{#isEquals userLogged.role 'SuperAdmin'}}
                             <li role="presentation" {{#isEquals active 'users' }} class="active" {{/isEquals}}>
