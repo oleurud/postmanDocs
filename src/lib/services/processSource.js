@@ -3,7 +3,7 @@ import config from '~/src/lib/config';
 import { Source } from '~/src/lib/models';
 import { HTTPCallsGenerator } from '~/src/lib/services';
 
-export default function(collectionName, sourceFile, url, user) {
+function ProcessSource(collectionName, sourceFile, url, user) {
     let filePath = config.tmpFolder + sourceFile.name;
 
     return new Promise( (resolve, reject) => {
@@ -15,45 +15,54 @@ export default function(collectionName, sourceFile, url, user) {
             }
 
             resolve(
-                new Promise( (resolve, reject) => {
-                    fs.readFile(filePath, 'utf8', function(err, data) {
-                        data = JSON.parse(data);
-
-                        if(err || !data || !data.info || !data.item) {
-                            reject({
-                                error: 'Error reading file'
-                            })
-                        }
-
-                        resolve(
-                            Source.findOne({ name: collectionName }).then((existingCollection) => {
-                                if(existingCollection) {
-                                    return {
-                                        error: 'The collection already exists'
-                                    }
-                                }
-
-                                let source = new Source({
-                                    name: collectionName,
-                                    description: data.info.description,
-                                    data: processData(data.item, url)
-                                });
-
-                                return source.save().then((source) => {
-                                    user.addSourcePermission(source._id);
-                                    
-                                    return {
-                                        message: 'Collection saved'
-                                    }
-                                });
-                            })
-                        )
-                    });
-                })
+                ProcessLocalSource(collectionName, filePath, url, user)
             )
         });
     });
 };
+
+function ProcessLocalSource(collectionName, filePath, url, user) {
+    return new Promise( (resolve, reject) => {
+        fs.readFile(filePath, 'utf8', function(err, data) {
+            data = JSON.parse(data);
+
+            if(err || !data || !data.info || !data.item) {
+                reject({
+                    error: 'Error reading file'
+                })
+            }
+
+            resolve(
+                Source.findOne({ name: collectionName }).then((existingCollection) => {
+                    if(existingCollection) {
+                        return {
+                            error: 'The collection already exists'
+                        }
+                    }
+
+                    let source = new Source({
+                        name: collectionName,
+                        description: data.info.description,
+                        data: processData(data.item, url)
+                    });
+
+                    return source.save().then((source) => {
+                        user.addSourcePermission(source._id);
+
+                        return {
+                            message: 'Collection saved'
+                        }
+                    });
+                })
+            )
+        });
+    })
+}
+
+export {
+    ProcessSource,
+    ProcessLocalSource
+}
 
 function processData(dataSource, url) {
     return dataSource.map( (endpointGroup) => {
