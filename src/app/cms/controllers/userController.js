@@ -2,10 +2,6 @@ import { User, Source } from '~/src/lib/models';
 
 const UserController = {
     list: (req, res) => {
-        if(req.user.role != 'SuperAdmin') {
-            res.redirect('/cms');
-        }
-
         User.getAllUsersByRole(req.user).then( (users) => {
             res.render('users/index', {
                 active: 'users',
@@ -17,6 +13,10 @@ const UserController = {
     },
 
     setRole: (req, res) => {
+        if(req.user.role != 'SuperAdmin') {
+            res.redirect('/cms');
+        }
+
         const username = req.params.userName;
         const role = req.params.role;
 
@@ -55,10 +55,6 @@ const UserController = {
     },
 
     createUser: (req, res, next) => {
-        if(req.user.role != 'SuperAdmin') {
-            res.redirect('/cms');
-        }
-
         const email = req.body.email;
         const password = req.body.password;
         const username = req.body.username;
@@ -137,10 +133,6 @@ const UserController = {
     },
 
     permissions: (req, res, next) => {
-        if(req.user.role != 'SuperAdmin') {
-            res.redirect('/cms');
-        }
-        
         const userName = req.params.userName;
         const sourceId = req.params.sourceId;
         const action = req.params.action;
