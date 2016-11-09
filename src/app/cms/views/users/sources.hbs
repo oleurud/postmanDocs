@@ -1,0 +1,36 @@
+<h2><legend>Collections of user: {{userName}}</legend></h2>
+
+<ul class="list-group">
+    <li class="list-group-item active">Collections</li>
+    {{#each sources}}
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-8">
+                    {{this.name}}
+                </div>
+                <div class="col-md-4">
+                    <a href="/cms/users/{{../userName}}/permissions/{{this._id}}/remove" class="btn btn-danger pull-right">Remove permissions</a>
+                </div>
+            </div>
+        </li>
+    {{/each}}
+</ul>
+
+{{#if sourcesNotSelected}}
+    <br><br>
+    <ul class="list-group">
+        <li class="list-group-item active">Collections without permissions</li>
+        {{#each sourcesNotSelected}}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-8">
+                        {{this.name}}
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/cms/users/{{../userName}}/permissions/{{this._id}}/add" class="btn btn-primary pull-right">Add permissions</a>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}

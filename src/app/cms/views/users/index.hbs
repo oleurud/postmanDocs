@@ -1,0 +1,51 @@
+<h2><legend>Users <a href="/cms/users/add" class="btn btn-primary pull-right">Add new</a></legend></h2>
+
+{{#if users.Admin}}
+    <ul class="list-group">
+        <li class="list-group-item active">Admins</li>
+        {{#each users.Admin}}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{this.username}}
+                    </div>
+                    <div class="col-md-4">
+                        {{this.email}}
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/cms/users/{{this.username}}/role/Client">Set as Client</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/cms/users/{{this.username}}/sources">Sources</a>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}
+
+<br>
+
+{{#if users.Client}}
+    <ul class="list-group">
+        <li class="list-group-item active">Clients</li>
+        {{#each users.Client}}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{this.username}}
+                    </div>
+                    <div class="col-md-4">
+                        {{this.email}}
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/cms/users/{{this.username}}/role/Admin">Set as Admin</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="/cms/users/{{this.username}}/sources">Sources</a>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+{{/if}}

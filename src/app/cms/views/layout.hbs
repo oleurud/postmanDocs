@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Postman Docs</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+    <div class="container">
+        <div class="header clearfix">
+            <nav>
+                <ul class="nav nav-pills pull-right">
+                    {{#if userLogged}}
+                        <li role="presentation" {{#isEquals active 'sources' }} class="active" {{/isEquals}}>
+                            <a href="/cms/sources">Collections</a>
+                        </li>
+                        {{#isEquals userLogged.role 'SuperAdmin'}}
+                            <li role="presentation" {{#isEquals active 'users' }} class="active" {{/isEquals}}>
+                                <a href="/cms/users">Users</a></li>
+                        {{/isEquals}}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{userLogged.username}} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li role="presentation"><a href="/cms/auth/logout">Logout</a></li>
+                            </ul>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+            <h3 class="text-muted">Postman Docs</h3>
+        </div>
+
+        {{#if errors}}
+            <div class="alert alert-danger" role="alert">
+                {{#each errors}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        {{/if}}
+
+        {{{body}}}
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

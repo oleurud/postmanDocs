@@ -1,0 +1,199 @@
+{
+	"variables": [],
+	"info": {
+		"name": "PostmanDocs",
+		"_postman_id": "3f0b5c96-66e2-699a-c025-bf22f3fc9baf",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "LOGIN",
+					"request": {
+						"url": "{{HOST}}/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"simon@test.com\",\n  \"password\": \"1q2w3e4r\",\n  \"device\":\"web\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTER",
+					"request": {
+						"url": "{{HOST}}/auth/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"simon@test.com\",\n  \"password\": \"1q2w3e4r\",\n  \"username\":\"simon\",\n  \"device\":\"web\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sources",
+			"description": "",
+			"item": [
+				{
+					"name": "GET ALL SOURCES",
+					"request": {
+						"url": "{{HOST}}/sources",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODE2MzM4MDA5YTc2YTI3ZTRmMGIzM2MiLCJ1c2VybmFtZSI6InNpbW9uIiwicm9sZSI6IkFkbWluIiwiZGV2aWNlIjoid2ViIiwiaWF0IjoxNDc3ODUwMTY4LCJleHAiOjE0Nzc5MzY1Njh9.PY5ujikoTc6cW6l7x5ZPLbpZbrhMdBRjNOCB0vxG31Q",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET SOURCE",
+					"request": {
+						"url": "{{HOST}}/sources/XXXX",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODE2MzM4MDA5YTc2YTI3ZTRmMGIzM2MiLCJ1c2VybmFtZSI6InNpbW9uIiwicm9sZSI6IkFkbWluIiwiZGV2aWNlIjoid2ViIiwiaWF0IjoxNDc3ODUwMTY4LCJleHAiOjE0Nzc5MzY1Njh9.PY5ujikoTc6cW6l7x5ZPLbpZbrhMdBRjNOCB0vxG31Q",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GET SOURCE markdown",
+					"request": {
+						"url": "{{HOST}}/sources/XXXX/markdown",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODE2MzM4MDA5YTc2YTI3ZTRmMGIzM2MiLCJ1c2VybmFtZSI6InNpbW9uIiwicm9sZSI6IkFkbWluIiwiZGV2aWNlIjoid2ViIiwiaWF0IjoxNDc3ODUwMTY4LCJleHAiOjE0Nzc5MzY1Njh9.PY5ujikoTc6cW6l7x5ZPLbpZbrhMdBRjNOCB0vxG31Q",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"description": "",
+			"item": [
+				{
+					"name": "SET PERMISSIONS",
+					"request": {
+						"url": "{{HOST}}/users/XXXX/permissions/sources",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODE2MzM4MDA5YTc2YTI3ZTRmMGIzM2MiLCJ1c2VybmFtZSI6InNpbW9uIiwicm9sZSI6IkFkbWluIiwiZGV2aWNlIjoid2ViIiwiaWF0IjoxNDc3ODYwMDE4LCJleHAiOjE0Nzc5NDY0MTh9.YB5NuqnuYy--Qz1obV42TWbL_Au11nTEHew4_AhTgOU",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"permissions\":[\n    \"581634d0fe47ad290de91378\"  \n  ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "SET ROLE",
+					"request": {
+						"url": "{{HOST}}/users/XXXX/role",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ODE2NDJiNTBlM2NjZDMzYTQ5M2Y1YTIiLCJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlN1cGVyQWRtaW4iLCJkZXZpY2UiOiJ3ZWIiLCJpYXQiOjE0Nzc4NTQwMjMsImV4cCI6MTQ3Nzk0MDQyM30.zit0BHIeQFyeJa8v9brpvawNzBqTHt4mzJKkX0HsPJA",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"role\":\"Admin\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUBLIC",
+			"request": {
+				"url": "{{HOST}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwiZ2V0dGVycyI6e30sIndhc1BvcHVsYXRlZCI6ZmFsc2UsImFjdGl2ZVBhdGhzIjp7InBhdGhzIjp7Il9fdiI6ImluaXQiLCJwYXNzd29yZCI6ImluaXQiLCJuYW1lIjoiaW5pdCIsIl9pZCI6ImluaXQifSwic3RhdGVzIjp7Imlnbm9yZSI6e30sImRlZmF1bHQiOnt9LCJpbml0Ijp7Il9fdiI6dHJ1ZSwicGFzc3dvcmQiOnRydWUsIm5hbWUiOnRydWUsIl9pZCI6dHJ1ZX0sIm1vZGlmeSI6e30sInJlcXVpcmUiOnt9fSwic3RhdGVOYW1lcyI6WyJyZXF1aXJlIiwibW9kaWZ5IiwiaW5pdCIsImRlZmF1bHQiLCJpZ25vcmUiXX0sImVtaXR0ZXIiOnsiZG9tYWluIjpudWxsLCJfZXZlbnRzIjp7fSwiX2V2ZW50c0NvdW50IjowLCJfbWF4TGlzdGVuZXJzIjowfX0sImlzTmV3IjpmYWxzZSwiX2RvYyI6eyJfX3YiOjAsInBhc3N3b3JkIjoiMXEydzNlNHIiLCJuYW1lIjoic2ltb24iLCJfaWQiOiI1N2VkNWY3ZTY3MTBhMjI4MTBlYmMyOWQifSwiX3ByZXMiOnsiJF9fb3JpZ2luYWxfc2F2ZSI6W251bGwsbnVsbF0sIiRfX29yaWdpbmFsX3ZhbGlkYXRlIjpbbnVsbF0sIiRfX29yaWdpbmFsX3JlbW92ZSI6W251bGxdfSwiX3Bvc3RzIjp7IiRfX29yaWdpbmFsX3NhdmUiOltdLCIkX19vcmlnaW5hbF92YWxpZGF0ZSI6W10sIiRfX29yaWdpbmFsX3JlbW92ZSI6W119LCJpYXQiOjE0NzUyNjAzNTQsImV4cCI6MTQ3NTI2MTc5NH0.7bJ-zvv7hWpjrrosuZph638K1BEHENOUxPH_JDKhM5c",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
