@@ -9,6 +9,7 @@ The project has 3 subprojects:
 
 ## Install
 - Clone the project
+- npm install
 - cp parameters.json.dist parameters.json
 - Configure the parameters in parameters.json (especially the secret parameter)
 
