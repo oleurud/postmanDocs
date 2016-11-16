@@ -28,6 +28,7 @@ const localLogin = new LocalStrategy(localStrategyOptions, function(req, email, 
                     email: email,
                     password: password,
                     username: email.split("@")[0],
+                    role: 'Admin',
                     tokens: []
                 });
                 return user.save()
