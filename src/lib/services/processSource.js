@@ -42,7 +42,7 @@ function ProcessLocalSource(collectionName, filePath, url, user) {
 
                     let source = new Source({
                         name: collectionName,
-                        description: data.info.description,
+                        description: (data && data.info && data.info.description) ? data.info.description : '',
                         data: processData(data.item, url)
                     });
 
@@ -91,7 +91,7 @@ function processData(dataSource, url) {
 
         return {
             name: endpointGroup.name,
-            description: endpointGroup.description,
+            description: (endpointGroup && endpointGroup.description) ? endpointGroup.description : '',
             endpoints: endpoints
         };
     });
