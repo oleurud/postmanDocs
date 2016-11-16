@@ -20,6 +20,10 @@ export default function(app){
         res.redirect('/cms/auth/login');
     };
 
+    // Redirect to cms
+    app.get('/', function(req, res) {
+        res.redirect('/cms');
+    });
     
     cms.get('/', requireAuth, HomeController.index);
 
