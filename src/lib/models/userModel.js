@@ -265,7 +265,20 @@ userSchema.statics = {
         }
     },
     getAllUsersBySourceId: function(sourceId) {
-        return this.find({"permissions.sources": sourceId});
+        let usersByRole = {
+            Client: [],
+            Admin: []
+        };
+
+        return this.find({"permissions.sources": sourceId}).then( (users) => {
+            users.forEach( (u) => {
+                if(u.role != 'SuperAdmin') {
+                    usersByRole[u.role].push(u);
+                }
+            });
+
+            return usersByRole;
+        });
     },
     findOneByUsername: function(username) {
         return this.findOne({'username': username});

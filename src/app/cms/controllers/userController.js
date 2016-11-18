@@ -122,7 +122,7 @@ const UserController = {
                         res.render('users/sources', {
                             active: 'users',
                             userLogged: req.user.getPublicInfo(),
-                            userName: userName,
+                            user: user,
                             sources: sources,
                             sourcesNotSelected: sourcesWithoutPermissions
                         });

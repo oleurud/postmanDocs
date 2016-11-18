@@ -38,6 +38,8 @@ export default function(app){
     cms.get('/sources/add', requireAuth, SourceController.add);
     cms.post('/sources/add', requireAuth, SourceController.save);
     cms.get('/sources/:sourceName/users', requireAuth, SourceController.users);
+    cms.get('/sources/:sourceName/config', requireAuth, SourceController.config);
+    cms.post('/sources/:sourceName/config', requireAuth, SourceController.configSave);
 
     /* USERS */
     cms.get('/users', requireAuth, UserController.list);

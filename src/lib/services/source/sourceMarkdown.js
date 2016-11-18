@@ -1,7 +1,7 @@
 import { Source } from '~/src/lib/models';
 
 export default function(sourceName, user) {
-    return Source.getOne(sourceName, user).then( (source) => {
+    return Source.getOne(sourceName, user, true).then( (source) => {
         if (source) {
             let sourceMarkdown = "";
 

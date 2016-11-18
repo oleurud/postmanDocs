@@ -4,13 +4,13 @@ import { Source } from '~/src/lib/models';
 
 const SourceController = expressDeliver.wrapper({
     getAll: (req, res, next) => {
-        return Source.getAllSourcesNames(req.user).then( (sources) => {
+        return Source.getAllSourcesNames(req.user, true).then( (sources) => {
             return sources;
         });
     },
 
     getOne: (req, res, next) => {
-        return Source.getOne(req.params.sourceName, req.user).then( (source) => {
+        return Source.getOne(req.params.sourceName, req.user, true).then( (source) => {
             if (source) {
                 return source;
             } else {

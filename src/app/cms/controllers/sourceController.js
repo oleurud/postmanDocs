@@ -62,15 +62,45 @@ const SourceController = {
             if(!source) {
                 res.redirect('/cms/sources')
             }
-            
+
             User.getAllUsersBySourceId(source._id).then( (users) => {
                 res.render('sources/users', {
                     active: 'sources',
                     userLogged: req.user.getPublicInfo(),
                     users: users,
-                    sourceName: sourceName
+                    source: source
                 });
             });
+        })
+    },
+
+    config: (req, res, next) => {
+        const sourceName = req.params.sourceName;
+        Source.getOne(sourceName, req.user).then( (source) => {
+            if(!source) {
+                res.redirect('/cms/sources')
+            }
+
+            res.render('sources/config', {
+                active: 'sources',
+                userLogged: req.user.getPublicInfo(),
+                source: source
+            });
+        })
+    },
+
+    configSave: (req, res, next) => {
+        const sourceName = req.params.sourceName;
+        Source.getOne(sourceName, req.user).then( (source) => {
+            if (!source) {
+                res.redirect('/cms/sources')
+            }
+
+            source.name = req.body.name;
+            source.isPublic = req.body.isPublic;
+            source.save();
+
+            res.redirect('/cms/sources');
         })
     }
 };
