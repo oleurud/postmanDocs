@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
 import Source from './sourceModel';
+import {slugify} from '../services';
 
 
 const tokenSchema = new mongoose.Schema({
@@ -60,6 +61,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
     const user = this;
+
+    if (user.isModified('username')) {
+        user.username = slugify(user.username);
+    }
+
     const SALT_FACTOR = 5;
 
     if (!user.isModified('password')) return next();

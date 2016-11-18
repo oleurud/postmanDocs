@@ -1,5 +1,6 @@
 import DbService from './dbService';
 import errorResponse from './errorResponse';
+import slugify from './slugify';
 
 import { generateAccessToken, generateRandomToken } from './auth/auth';
 import PassportApi from './auth/passportApi';
@@ -13,6 +14,7 @@ import HTTPCallsGenerator from './source/HTTPCallsGenerator';
 
 export {
     DbService,
+    slugify,
     PassportApi,
     PassportCms,
     PassportCmsLdap,

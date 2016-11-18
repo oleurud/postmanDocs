@@ -10,7 +10,7 @@ const SourceController = expressDeliver.wrapper({
     },
 
     getOne: (req, res, next) => {
-        return Source.getOne(req.params.sourceName, req.user, true).then( (source) => {
+        return Source.getOne(req.params.sourceSlug, req.user, true).then( (source) => {
             if (source) {
                 return source;
             } else {
@@ -21,7 +21,7 @@ const SourceController = expressDeliver.wrapper({
 
     getOneFormated: (req, res, next) => {
         if(req.params.format == 'markdown') {
-            return SourceMarkdown(req.params.sourceName, req.user).then( (source) => {
+            return SourceMarkdown(req.params.sourceSlug, req.user).then( (source) => {
                 if (source) {
                     return source;
                 } else {

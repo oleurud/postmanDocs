@@ -24,8 +24,8 @@ export default function(app){
 
     /* SOURCES */
     v1.get('/sources', requireAuth, SourceController.getAll);
-    v1.get('/sources/:sourceName', requireAuth, SourceController.getOne);
-    v1.get('/sources/:sourceName/:format', requireAuth, SourceController.getOneFormated);
+    v1.get('/sources/:sourceSlug', requireAuth, SourceController.getOne);
+    v1.get('/sources/:sourceSlug/:format', requireAuth, SourceController.getOneFormated);
     v1.post('/sources', requireAuth, SourceController.save);
 
 

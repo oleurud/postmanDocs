@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import endpointsGroupSchema from './endpointsGroupModel';
+import {slugify} from '../services';
 
 const Schema = mongoose.Schema;
 
@@ -11,6 +12,11 @@ const sourceSchema = new Schema({
     },
     description: {
         type: String
+    },
+    slug: {
+        type: String,
+        required: true,
+        unique: true
     },
     isPublic: {
         type: Boolean,
@@ -53,18 +59,20 @@ sourceSchema.statics = {
     getAllSourcesNames: function(user, includePublics) {
         return this.find(this._getAllSourcesQuery(user, includePublics), {
             "_id": false,
-            "name": true
+            "name": true,
+            "slug": true
         });
     },
 
     getAllSourcesIds: function(user, includePublics) {
         return this.find(this._getAllSourcesQuery(user, includePublics), {
-            "_id": true
+            "_id": true,
+            "slug": true
         });
     },
     
-    getOne: function(sourceName, user, includePublics) {
-        return this.findOne({name: sourceName}).then( (source) => {
+    getOne: function(sourceSlug, user, includePublics) {
+        return this.findOne({slug: sourceSlug}).then( (source) => {
             if(!source || (user.role != 'SuperAdmin' && !user.hasSourcePermission(source._id) && !(includePublics && source.isPublic) )) {
                 return false;
             }

@@ -1,15 +1,19 @@
-import { errorResponse, ProcessSource, SourceMarkdown } from '~/src/lib/services';
+import { errorResponse, ProcessSource } from '~/src/lib/services';
 import { Source, User } from '~/src/lib/models';
 
 const SourceController = {
     getAll: (req, res, next) => {
+        console.log(1);
         return Source.getAllSourcesNames(req.user).then( (sources) => {
+            console.log(2);
             res.render('sources/index', {
                 active: 'sources',
                 userLogged: req.user.getPublicInfo(),
                 sources: sources
             });
         });
+        console.log(3);
+
     },
 
     add: (req, res, next) => {
@@ -57,8 +61,8 @@ const SourceController = {
     },
 
     users: (req, res, next) => {
-        const sourceName = req.params.sourceName;
-        Source.getOne(sourceName, req.user).then( (source) => {
+        const sourceSlug = req.params.sourceSlug;
+        return Source.getOne(sourceSlug, req.user).then( (source) => {
             if(!source) {
                 res.redirect('/cms/sources')
             }
@@ -75,23 +79,25 @@ const SourceController = {
     },
 
     config: (req, res, next) => {
-        const sourceName = req.params.sourceName;
-        Source.getOne(sourceName, req.user).then( (source) => {
+        const sourceSlug = req.params.sourceSlug;
+        return Source.getOne(sourceSlug, req.user).then( (source) => {
+            console.log('epa');
             if(!source) {
                 res.redirect('/cms/sources')
             }
-
+            console.log('epa2');
             res.render('sources/config', {
                 active: 'sources',
                 userLogged: req.user.getPublicInfo(),
                 source: source
             });
         })
+        console.log('epa3');
     },
 
     configSave: (req, res, next) => {
-        const sourceName = req.params.sourceName;
-        Source.getOne(sourceName, req.user).then( (source) => {
+        const sourceSlug = req.params.sourceSlug;
+        return Source.getOne(sourceSlug, req.user).then( (source) => {
             if (!source) {
                 res.redirect('/cms/sources')
             }
