@@ -1,7 +1,7 @@
 'use strict';
 import  Q from 'q';
 import ldap from 'ldapjs';
-import config from '../config';
+import config from '../../config';
 
 const debug = require('debug')('postmanDocs:ldap');
 var client = {};

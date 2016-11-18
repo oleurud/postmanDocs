@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import passportService from '~/src/lib/services/cmsPassport';
+import passportCms from '~/src/lib/services';
 import { AuthController, HomeController, SourceController, UserController } from './controllers';
 
 export default function(app){

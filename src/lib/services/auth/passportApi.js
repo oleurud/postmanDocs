@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { User } from '~/src/lib/models';
-import config from '../config';
+import config from '../../config';
 import PassportJwt from 'passport-jwt';
 import LocalStrategy from 'passport-local';
 import { errorResponse } from '~/src/lib/services';

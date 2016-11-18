@@ -1,7 +1,7 @@
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { User } from '~/src/lib/models';
-import ldap from '~/src/lib/services/ldapService';
+import ldapService from '~/src/lib/services';
 
 const localStrategyOptions = {
     usernameField: 'email',
@@ -10,8 +10,8 @@ const localStrategyOptions = {
 };
 
 const localLogin = new LocalStrategy(localStrategyOptions, function(req, email, password, done) {
-
-    ldap.bind(email, password)
+    console.log(ldapService);
+    ldapService.bind(email, password)
         .then(function (data) {
             if (data.status && data.status == 'good') 
                 return User.findOne({ email: email })
@@ -65,7 +65,7 @@ const localLogin = new LocalStrategy(localStrategyOptions, function(req, email, 
 
 });
 
-passport.use('localCMS', localLogin);
+passport.use('localCMSLdap', localLogin);
 
 passport.serializeUser(function(user, done) {
     done(null, user._id);
