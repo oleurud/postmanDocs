@@ -37,9 +37,9 @@ export default function(app){
     cms.get('/sources', requireAuth, SourceController.getAll);
     cms.get('/sources/add', requireAuth, SourceController.add);
     cms.post('/sources/add', requireAuth, SourceController.save);
-    cms.get('/sources/:sourceName/users', requireAuth, SourceController.users);
-    cms.get('/sources/:sourceName/config', requireAuth, SourceController.config);
-    cms.post('/sources/:sourceName/config', requireAuth, SourceController.configSave);
+    cms.get('/sources/:sourceSlug/users', requireAuth, SourceController.users);
+    cms.get('/sources/:sourceSlug/config', requireAuth, SourceController.config);
+    cms.post('/sources/:sourceSlug/config', requireAuth, SourceController.configSave);
 
     /* USERS */
     cms.get('/users', requireAuth, UserController.list);
