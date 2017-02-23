@@ -9,7 +9,7 @@
                     {{this.name}}
                 </div>
                 <div class="col-md-4">
-                    <a href="/cms/users/{{../userName}}/permissions/{{this._id}}/remove" class="btn btn-danger pull-right">Remove permissions</a>
+                    <a href="/cms/users/{{../user.username}}/permissions/{{this._id}}/remove" class="btn btn-danger pull-right">Remove permissions</a>
                 </div>
             </div>
         </li>
@@ -27,7 +27,7 @@
                         {{this.name}}
                     </div>
                     <div class="col-md-4">
-                        <a href="/cms/users/{{../userName}}/permissions/{{this._id}}/add" class="btn btn-primary pull-right">Add permissions</a>
+                        <a href="/cms/users/{{../user.username}}/permissions/{{this._id}}/add" class="btn btn-primary pull-right">Add permissions</a>
                     </div>
                 </div>
             </li>
