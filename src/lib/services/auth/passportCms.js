@@ -9,6 +9,7 @@ const localStrategyOptions = {
 };
 
 const localLogin = new LocalStrategy(localStrategyOptions, function(req, email, password, done) {
+
     User.findOne({email: email}, function (err, user) {
         if (err || !user) {
             return done(null, false, req.flash('loginMessage', 'Your login details could not be verified. Please try again'));

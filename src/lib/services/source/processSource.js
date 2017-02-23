@@ -1,7 +1,7 @@
 import fs from 'fs';
 import config from '~/src/lib/config';
 import { Source } from '~/src/lib/models';
-import { HTTPCallsGenerator } from '~/src/lib/services';
+import { HTTPCallsGenerator, slugify } from '~/src/lib/services';
 
 function ProcessSource(collectionName, sourceFile, url, user) {
     let filePath = config.tmpFolder + sourceFile.name;
@@ -42,8 +42,9 @@ function ProcessLocalSource(collectionName, filePath, url, user) {
 
                     let source = new Source({
                         name: collectionName,
-                        description: data.info.description,
-                        data: processData(data.item, url)
+                        description: (data && data.info && data.info.description) ? data.info.description : '',
+                        data: processData(data.item, url),
+                        slug: slugify(collectionName)
                     });
 
                     return source.save().then((source) => {
@@ -91,7 +92,7 @@ function processData(dataSource, url) {
 
         return {
             name: endpointGroup.name,
-            description: endpointGroup.description,
+            description: (endpointGroup && endpointGroup.description) ? endpointGroup.description : '',
             endpoints: endpoints
         };
     });

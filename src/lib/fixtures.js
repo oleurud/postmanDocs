@@ -10,7 +10,7 @@ let promises = [];
 //SuperAdmin user
 let user = new User({
     email: 'admin@test.com',
-    password: 'XXXXXXXX',
+    password: '1q2w3e4r',
     username: 'admin',
     tokens: [],
     role: 'SuperAdmin'

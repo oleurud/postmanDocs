@@ -1,6 +1,6 @@
 import express from 'express';
 import passport from 'passport';
-import passportService from '~/src/lib/services/cmsPassport';
+import passportCms from '~/src/lib/services';
 import { AuthController, HomeController, SourceController, UserController } from './controllers';
 
 export default function(app){
@@ -20,6 +20,10 @@ export default function(app){
         res.redirect('/cms/auth/login');
     };
 
+    // Redirect to cms
+    app.get('/', function(req, res) {
+        res.redirect('/cms');
+    });
     
     cms.get('/', requireAuth, HomeController.index);
 
@@ -33,7 +37,9 @@ export default function(app){
     cms.get('/sources', requireAuth, SourceController.getAll);
     cms.get('/sources/add', requireAuth, SourceController.add);
     cms.post('/sources/add', requireAuth, SourceController.save);
-    cms.get('/sources/:sourceName/users', requireAuth, SourceController.users);
+    cms.get('/sources/:sourceSlug/users', requireAuth, SourceController.users);
+    cms.get('/sources/:sourceSlug/config', requireAuth, SourceController.config);
+    cms.post('/sources/:sourceSlug/config', requireAuth, SourceController.configSave);
 
     /* USERS */
     cms.get('/users', requireAuth, UserController.list);

@@ -4,13 +4,13 @@ import { Source } from '~/src/lib/models';
 
 const SourceController = expressDeliver.wrapper({
     getAll: (req, res, next) => {
-        return Source.getAllSourcesNames(req.user).then( (sources) => {
+        return Source.getAllSourcesNames(req.user, true).then( (sources) => {
             return sources;
         });
     },
 
     getOne: (req, res, next) => {
-        return Source.getOne(req.params.sourceName, req.user).then( (source) => {
+        return Source.getOne(req.params.sourceSlug, req.user, true).then( (source) => {
             if (source) {
                 return source;
             } else {
@@ -21,7 +21,7 @@ const SourceController = expressDeliver.wrapper({
 
     getOneFormated: (req, res, next) => {
         if(req.params.format == 'markdown') {
-            return SourceMarkdown(req.params.sourceName, req.user).then( (source) => {
+            return SourceMarkdown(req.params.sourceSlug, req.user).then( (source) => {
                 if (source) {
                     return source;
                 } else {

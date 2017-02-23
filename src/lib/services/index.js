@@ -1,14 +1,24 @@
 import DbService from './dbService';
-import PassportService from './passport';
-import { ProcessSource, ProcessLocalSource } from './processSource';
-import SourceMarkdown from './sourceMarkdown';
-import HTTPCallsGenerator from './HTTPCallsGenerator';
-import { generateAccessToken, generateRandomToken } from './auth';
 import errorResponse from './errorResponse';
+import slugify from './slugify';
+
+import { generateAccessToken, generateRandomToken } from './auth/auth';
+import PassportApi from './auth/passportApi';
+import PassportCms from './auth/passportCms';
+import PassportCmsLdap from './auth/passportCmsLdap';
+import ldapService from './auth/ldapService';
+
+import { ProcessSource, ProcessLocalSource } from './source/processSource';
+import SourceMarkdown from './source/sourceMarkdown';
+import HTTPCallsGenerator from './source/HTTPCallsGenerator';
 
 export {
     DbService,
-    PassportService,
+    slugify,
+    PassportApi,
+    PassportCms,
+    PassportCmsLdap,
+    ldapService,
     ProcessSource,
     ProcessLocalSource,
     SourceMarkdown,

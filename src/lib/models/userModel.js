@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt-nodejs';
 import Source from './sourceModel';
+import {slugify} from '../services';
 
 
 const tokenSchema = new mongoose.Schema({
@@ -60,6 +61,11 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
     const user = this;
+
+    if (user.isModified('username')) {
+        user.username = slugify(user.username);
+    }
+
     const SALT_FACTOR = 5;
 
     if (!user.isModified('password')) return next();
@@ -265,7 +271,20 @@ userSchema.statics = {
         }
     },
     getAllUsersBySourceId: function(sourceId) {
-        return this.find({"permissions.sources": sourceId});
+        let usersByRole = {
+            Client: [],
+            Admin: []
+        };
+
+        return this.find({"permissions.sources": sourceId}).then( (users) => {
+            users.forEach( (u) => {
+                if(u.role != 'SuperAdmin') {
+                    usersByRole[u.role].push(u);
+                }
+            });
+
+            return usersByRole;
+        });
     },
     findOneByUsername: function(username) {
         return this.findOne({'username': username});

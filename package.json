@@ -34,6 +34,7 @@
     "hbs": "^4.0.1",
     "httpsnippet": "^1.16.5",
     "jsonwebtoken": "^7.1.9",
+    "ldapjs": "^1.0.1",
     "mongoose": "^4.6.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.1.0",

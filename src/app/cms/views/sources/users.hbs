@@ -1,26 +1,46 @@
-<h2><legend>Users of project: {{sourceName}}</legend></h2>
+<h2><legend>Users of project: {{source.name}}</legend></h2>
 
 <ul class="list-group">
     <li class="list-group-item active">
-        <div class="row">
-            <div class="col-md-6">
-                Username
-            </div>
-            <div class="col-md-6">
-                Email
-            </div>
-        </div>
+        Admins
     </li>
-    {{#each users}}
-        <li class="list-group-item">
-            <div class="row">
-                <div class="col-md-6">
-                    {{this.username}}
+    {{#if users.Admin}}
+        {{#each users.Admin}}
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-6">
+                        {{this.username}}
+                    </div>
+                    <div class="col-md-6">
+                        {{this.email}}
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    {{this.email}}
-                </div>
-            </div>
-        </li>
-    {{/each}}
+            </li>
+        {{/each}}
+    {{/if}}
+</ul>
+
+
+<ul class="list-group">
+    <li class="list-group-item active">
+        Clients
+    </li>
+    {{#if source.isPublic}}
+        <li class="list-group-item">Is public. Everyone can show it</li>
+    {{else}}
+        {{#if users.Clients}}
+            {{#each users.Clients}}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{this.username}}
+                        </div>
+                        <div class="col-md-6">
+                            {{this.email}}
+                        </div>
+                    </div>
+                </li>
+            {{/each}}
+        {{/if}}
+    {{/if}}
 </ul>
